@@ -1,0 +1,15 @@
+#!/bin/bash
+
+clear
+
+while true; do 
+	
+	clear
+	read -p 'Enter a password:' passwd
+	if [[ $passwd == "apples"  ]]; then 
+		printf "\n Correct. \n"
+		exit
+	else 
+		continue 
+	fi
+done

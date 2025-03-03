@@ -1,0 +1,15 @@
+#!/bin/bash 
+
+
+##math funciton
+math(){
+	answr=$((arg1 * arg2))
+	echo "$arg1 * $arg2 = $answr"
+}
+
+## MAIN 
+read -p "Enter two numbers to multiply:" arg1 arg2
+
+echo "input is $arg1 and $arg2"
+
+math

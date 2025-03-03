@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# Function to log messages to both terminal and log file
+log_message() {
+    message=$1
+    echo "$message"
+    echo "$message" >> nc_log.txt
+}
+
+# Check for presence of 2 arguments
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <IP_address> <Port>"
+    exit 1
+fi
+
+# Capture the arguments
+ip_address=$1
+port=$2
+
+# Log the nc command
+log_message "Running nc command: nc -w1 -z $ip_address $port"
+
+# Run the nc command
+nc -w1 -z "$ip_address" "$port"
+nc_exit_status=$?
+
+# Check if the connection was successful
+if [ $nc_exit_status -eq 0 ]; then
+    log_message "Connection to $ip_address:$port succeeded."
+else
+    log_message "Connection to $ip_address:$port failed."
+fi
+
+# Ask user if they want to run nc again
+while true; do
+    read -p "Would you like to use nc again? (y/n): " user_response
+    if [[ "$user_response" == "y" || "$user_response" == "Y" ]]; then
+        # Prompt for IP address and port, with previous values as defaults
+        read -p "Enter IP address (default $ip_address): " new_ip
+        ip_address=${new_ip:-$ip_address}
+        read -p "Enter port (default $port): " new_port
+        port=${new_port:-$port}
+
+        # Log the new nc command
+        log_message "Running nc command: nc -w1 -z $ip_address $port"
+
+        # Run the new nc command
+        nc -w1 -z "$ip_address" "$port"
+        nc_exit_status=$?
+
+        # Check if the connection was successful
+        if [ $nc_exit_status -eq 0 ]; then
+            log_message "Connection to $ip_address:$port succeeded."
+        else
+            log_message "Connection to $ip_address:$port failed."
+        fi
+    elif [[ "$user_response" == "n" || "$user_response" == "N" ]]; then
+        log_message "Exiting the script."
+        break
+    else
+        echo "Invalid input. Please enter 'y' or 'n'."
+    fi
+done
+
+# Handle CTRL+C (trap)
+trap "log_message 'Script complete.'; exit" SIGINT
+

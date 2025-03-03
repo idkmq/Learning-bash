@@ -1,0 +1,43 @@
+#!/bin/bash
+clear 
+
+log_msg(){
+	msg=$1
+	echo "$msg"
+	echo "$msg" >> $log_file
+}
+
+
+## Check for args
+if [ $# -ne 2 ]; then 
+	echo "USAGE: ./script <address> <port>"
+	exit 1
+fi
+
+## input capture args
+addr=$1
+prt=$2 
+log_file="/tmp/nc.log"
+
+log_msg "Running:nc -w1 -z $addr $prt"
+
+nc -w1 -v -z $addr $prt 
+nc_exit_status=$?
+echo $nc_exit_status
+sleep 5
+
+## running the nc /w user input 
+$cmd 
+
+## Check for successful conncetoin 
+if [[ nc_exit_status -eq 0 ]]; then 
+	log_msg "Connection to $addr on $prt was Success!"
+else 
+	log_msg "Connection to $addr on $prt was Fail"
+fi
+
+
+## Ask again 
+while true; do 
+
+done

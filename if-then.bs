@@ -1,0 +1,11 @@
+#!/bin/bash
+
+read -p "Enter a number between 10 and 20: " arg
+
+if [[ $arg -lt 10 ]]; then 
+	arg=10
+elif [[ $arg -gt 20 ]]; then 
+	arg=20
+fi 
+
+echo "your number is $arg"

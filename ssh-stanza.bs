@@ -1,0 +1,28 @@
+#!/bin/bash
+
+clear
+
+# creating file
+sshf=/tmp/ssh.stanza
+touch /tmp/ssh.stanza
+
+# default values
+usr=$(whoami)
+hostname="127.0.0.1"
+
+# promt
+read -p "Enter the Host [studentXX]: " host
+read -p "Enter the Hostname [127.0.0.1]: "
+hostname=${hostname:-$host}
+read -p "Enter the user [$usr]: "
+usr=${usr:-$usr}
+read -p "Enter the port [22]: " port
+
+## Creating the file 
+echo "Host $host" > $sshf
+echo "	Hostname $hostname" >> $sshf
+echo "	User $usr" >> $sshf
+echo "	Port $port" >> $sshf
+
+## file print
+echo "[+] /tmp/ssh.stanza created"

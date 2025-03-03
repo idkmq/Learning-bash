@@ -1,0 +1,11 @@
+#!/bin/bash
+
+arg1="2"
+arg2="3"
+
+# Prompt the user for their name, pre-filled with "joe"
+read -e -p "Enter your name (default is 'joe'): " -i "$arg1 $arg2" arg1 arg2
+
+# Output the entered name
+echo "You entered: $arg1 $arg2"
+
